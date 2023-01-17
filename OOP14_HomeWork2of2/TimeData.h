@@ -41,6 +41,8 @@ void TimeData::add(char* c) {
 	if (lenght < size && !isExist(c)) {
 		strcpy_s(names[lenght], strlen(c) + 1, c);
 		minutes[lenght] = 0;
+		// To monitor users ( user can be in console, but not in
+		// TimeData, because his queue hasn't come)
 		cout << names[lenght] << endl;
 		lenght++;
 	}
