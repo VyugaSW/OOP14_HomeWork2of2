@@ -47,7 +47,14 @@ char* QueuePriority::getNameMaxPriority() {
 			pos_max_pri = i;
 		}
 	}
-	return Wait[pos_max_pri];
+
+	for (int i = pos_max_pri; i < QueueLenght - 1; i++) {
+		Wait[i] = Wait[i + 1];
+		Priority[i] = Priority[i + 1];
+		Minutes[i] = Minutes[i + 1];
+	}
+
+	return Wait[QueueLenght - 1];
 }
 
 void QueuePriority::updateTime(int m) {
@@ -100,21 +107,7 @@ void QueuePriority::add(char *c, int p) {
 
 int QueuePriority::extract() {
 	if (!isEmpty()) {
-		int max_pri = Priority[0];
-		int pos_max_pri = 0;
-		for (int i = 1; i < QueueLenght; i++) {
-			if (Priority[i] < max_pri) {
-				max_pri = Priority[i];
-				pos_max_pri = i;
-			}
-		}
-
-		for (int i = pos_max_pri; i < QueueLenght - 1; i++) {
-			Wait[i] = Wait[i + 1];
-			Priority[i] = Priority[i + 1];
-			Minutes[i] = Minutes[i + 1];
-		}
-
+		//Array changes happened in a method "getNameMaxPriority()"
 		int bufMinutes = Minutes[QueueLenght - 1];
 		Minutes[QueueLenght - 1] = 0;
 		QueueLenght--;
