@@ -1,7 +1,9 @@
 ﻿
 #include <Windows.h>
 #include <iostream>
+
 #include "QueuePriority.h"
+#include "TimeData.h"
 
 using namespace std;
 
@@ -11,7 +13,7 @@ const char ClientsName[13][25]{ "Mark","Tom","Aleksandr","Sandra","Tim","Went","
 // Their priority
 const int ClientPriority[13]{ 1,5,4,2,3,6,1,4,3,1,5,4,8};
 
-
+           
 void NewClient (QueuePriority clients, TimeData clientsTimeWait) {
 	if (!(rand() % 2)) {
 		int randClient = rand() % 13; // Random client
