@@ -20,7 +20,7 @@ public:
 	// Add new client
 	void add(char* c, int p); 
 	// Extract client (return his waiting time)
-	int extract(); 
+	char* extract(); 
 	// Clear queue
 	void clear(); 
 	// Check if queue is empty
@@ -34,27 +34,16 @@ public:
 	// Update waiting time for all clients in queue
 	void updateTime(int m);
 	// Return name with max priority
-	char* getNameMaxPriority();
+	int getMinutesMaxPriority();
 };
 
 
-char* QueuePriority::getNameMaxPriority() {
-	int max_pri = Priority[0];
-	int pos_max_pri = 0;
-	for (int i = 1; i < QueueLenght; i++) {
-		if (Priority[i] < max_pri) {
-			max_pri = Priority[i];
-			pos_max_pri = i;
-		}
+int QueuePriority::getMinutesMaxPriority() {
+	if (!isEmpty()) {
+		int bufMinutes = Minutes[QueueLenght - 1];
+		Minutes[QueueLenght - 1] = 0;
+		return bufMinutes;
 	}
-
-	for (int i = pos_max_pri; i < QueueLenght - 1; i++) {
-		Wait[i] = Wait[i + 1];
-		Priority[i] = Priority[i + 1];
-		Minutes[i] = Minutes[i + 1];
-	}
-
-	return Wait[QueueLenght - 1];
 }
 
 void QueuePriority::updateTime(int m) {
@@ -105,15 +94,28 @@ void QueuePriority::add(char *c, int p) {
 	}
 }
 
-int QueuePriority::extract() {
+char* QueuePriority::extract() {
 	if (!isEmpty()) {
-		//Array changes happened in a method "getNameMaxPriority()"
-		int bufMinutes = Minutes[QueueLenght - 1];
-		Minutes[QueueLenght - 1] = 0;
+		int max_pri = Priority[0];
+		int pos_max_pri = 0;
+		for (int i = 1; i < QueueLenght; i++) {
+			if (Priority[i] < max_pri) {
+				max_pri = Priority[i];
+				pos_max_pri = i;
+			}
+		}
+
+		for (int i = pos_max_pri; i < QueueLenght - 1; i++) {
+			Wait[i] = Wait[i + 1];
+			Priority[i] = Priority[i + 1];
+			Minutes[i] = Minutes[i + 1];
+		}
+
+		char* bufWait = new char[strlen(Wait[QueueLenght - 1] + 1)];
+		strcpy_s(bufWait, strlen(Wait[QueueLenght - 1]) + 1, Wait[QueueLenght - 1]);
 		QueueLenght--;
-		return bufMinutes;
+		return bufWait;
 	}
-	return -1;
 }
 
 void QueuePriority::clear() {

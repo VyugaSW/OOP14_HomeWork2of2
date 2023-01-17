@@ -74,7 +74,7 @@ void Process() {
 		}
 
 		// Extract client and save his information
-		clientsTimeWait.update(clients.extract(), clients.getNameMaxPriority());
+		clientsTimeWait.update(clients.getMinutesMaxPriority(), clients.extract());
 
 	}
 	// Clear queue if there is any clients
